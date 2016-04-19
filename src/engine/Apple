@@ -14,8 +14,8 @@ public class Apple {
     private Box createApple(Snake s){
         randGenerator = new Random();
 
-        int x = randGenerator.nextInt(GameEngine.GAME_SCREEN_WIDTH);
-        int y = randGenerator.nextInt(GameEngine.GAME_SCREEN_HEIGHT);
+        int x = randGenerator.nextInt(GameEngine.COLS);
+        int y = randGenerator.nextInt(GameEngine.ROWS);
 
         Box applePoint = new Box(x,y);
 
