@@ -26,6 +26,7 @@ public class Apple {
     }
 
     public void drawApple(Graphics g){
+        g.setColor(Color.Red);
         g.fillOval(appleBox.x*appleBox.BOX_SIZE, appleBox.y*appleBox.BOX_SIZE, appleBox.BOX_SIZE,appleBox.BOX_SIZE);
     }
 }
