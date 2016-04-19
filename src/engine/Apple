@@ -3,9 +3,7 @@ package engine;
 import java.awt.*;
 import java.util.Random;
 
-/**
- * Created by Nikola on 19/04/2016 г..
- */
+
 public class Apple {
     private Box appleBox;
     private Random randGenerator;
