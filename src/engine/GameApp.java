@@ -12,6 +12,7 @@ public class GameApp extends Applet {
 	private final int APPLET_WINDOW_HEIGHT = 650;
 	
 	private GameEngine gameEngine;
+	InputHandler iHandler;
 	
 	public void init() {
 		
@@ -22,6 +23,7 @@ public class GameApp extends Applet {
 		this.gameEngine.setFocusable(true);
 		this.add(gameEngine);
 		this.setVisible(true);
+		iHandler = new InputHandler(gameEngine);
 	}
 	
 	public void paint(Graphics graphics){
