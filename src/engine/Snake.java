@@ -13,6 +13,7 @@ public class Snake {
     public static LinkedList<Box> body;
     
     private int velX, velY;
+    public Box head;
 
     public Snake() {
         body = new LinkedList<>();
