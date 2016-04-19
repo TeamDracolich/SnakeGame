@@ -50,8 +50,10 @@ public class Snake {
         nextPosition.y >= GameEngine.ROWS || nextPosition.y < 0;
         
         if(nextPosition.equals(GameEngine.apple.getAppleBox())){
+            GameEngine.score += 10;
             body.add(GameEngine.apple.getAppleBox());
-            Game.apple = new Apple();
+            GameEngine.apple = new Apple();
+            GameEngine.changeSpeed();
         }else if(body.contains(nextPosition) || hitBorder){
             GameEngine.isRunning = false;
         }
