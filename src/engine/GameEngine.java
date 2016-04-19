@@ -63,12 +63,12 @@ public class GameEngine extends Canvas implements Runnable {
 		snake.drawSnake(graphics);
 		apple.drawApple(graphics)
 		
-		this.drawScore(g);
+		this.drawScore(graphics);
 	}
 	public void drawScore(Graphics g){
-		g.setColor(Color.black);
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 600, 600, 25);
-		g.setColor(Color.white);
+		g.setColor(Color.WHITE);
 		g.drawString("Score: " + score, 10, 615);
 	}
 }
