@@ -12,11 +12,10 @@ public class GameEngine extends Canvas implements Runnable {
 	public static final int GAME_SCREEN_WIDTH = 600;
 	public static final int GAME_SCREEN_HEIGHT = 600;
 	
-	private int gameSpeed;
-	
 	private Thread runThread;
 	private Graphics graphics;
 	
+	private int gameSpeed;
 	public static int score;
 	private boolean isRunning;
 	
@@ -35,9 +34,8 @@ public class GameEngine extends Canvas implements Runnable {
 	public GameEngine() {
 		snake = new Snake();
 		apple = new Apple();
-		
 		score = 0;
-	
+		gameSpeed = 100;
 	}
 
 	@Override
@@ -47,15 +45,19 @@ public class GameEngine extends Canvas implements Runnable {
 		while (isRunning) {
 			snake.tick();
 			render(graphics);
-
 			try {
-				
-				Thread.sleep(this.gameSpeed);
+				Thread.sleep(gameSpeed);
 			} catch (InterruptedException e) {
 
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static void changeSpeed(){
+            if (this.score % 30 == 0) {
+                this.gameSpeed -= 10;
+            }
 	}
 
 	public void render(Graphics graphics){
