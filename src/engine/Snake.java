@@ -43,7 +43,11 @@ public class Snake {
         head = body.peekLast();
 
         Box nextPosition = new Box(head.x + velX, head.y + velY);
-
+        
+        boolean outside = 
+            nextPosition.x >= GameEngine.COLS || nextPosition.x < 0 ||
+            nextPosition.y >= GameEngine.ROWS || nextPosition.y < 0;
+            
         for (int i = 0; i < body.size() - 1; i++) {
             body.set(i, body.get(i+1));
         }
