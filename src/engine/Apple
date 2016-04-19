@@ -30,3 +30,6 @@ public class Apple {
         g.fillOval(appleBox.x*appleBox.BOX_SIZE, appleBox.y*appleBox.BOX_SIZE, appleBox.BOX_SIZE,appleBox.BOX_SIZE);
     }
 }
+    public Box getAppleBox(){
+        return appleBox;
+    }
