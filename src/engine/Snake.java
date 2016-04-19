@@ -45,13 +45,15 @@ public class Snake {
 
         Box nextPosition = new Box(head.x + velX, head.y + velY);
         
-        boolean outside = 
+        boolean hitBorder = 
         nextPosition.x >= GameEngine.COLS || nextPosition.x < 0 ||
         nextPosition.y >= GameEngine.ROWS || nextPosition.y < 0;
         
         if(nextPosition.equals(GameEngine.apple.getAppleBox())){
             body.add(GameEngine.apple.getAppleBox());
             Game.apple = new Apple();
+        }else if(body.contains(nextPosition) || hitBorder){
+            GameEngine.isRunning = false;
         }
         
             
