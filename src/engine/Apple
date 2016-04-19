@@ -1,0 +1,33 @@
+package engine;
+
+import java.awt.*;
+import java.util.Random;
+
+/**
+ * Created by Nikola on 19/04/2016 г..
+ */
+public class Apple {
+    private Box appleBox;
+    private Random randGenerator;
+
+    public Apple() {
+        appleBox = createApple(GameEngine.snake);
+    }
+    private Box createApple(Snake s){
+        randGenerator = new Random();
+
+        int x = randGenerator.nextInt(GameEngine.GAME_SCREEN_WIDTH);
+        int y = randGenerator.nextInt(GameEngine.GAME_SCREEN_HEIGHT);
+
+        Box applePoint = new Box(x,y);
+
+        if (s.body.contains(applePoint)){
+            return createApple(s);
+        }
+        return applePoint;
+    }
+
+    public void drawApple(Graphics g){
+        g.fillOval(appleBox.x*appleBox.BOX_SIZE, appleBox.y*appleBox.BOX_SIZE, appleBox.BOX_SIZE,appleBox.BOX_SIZE);
+    }
+}
