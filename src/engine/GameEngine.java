@@ -6,7 +6,8 @@ import java.awt.Graphics;
 
 @SuppressWarnings("serial")
 public class GameEngine extends Canvas implements Runnable {
-	private Snake snake;
+	public static Snake snake;
+	public static Apple apple; 
 
 	public static final int GAME_SCREEN_WIDTH = 600;
 	public static final int GAME_SCREEN_HEIGHT = 600;
@@ -33,6 +34,7 @@ public class GameEngine extends Canvas implements Runnable {
 
 	public GameEngine() {
 		snake = new Snake();
+		apple = new Apple();
 		
 		score = 0;
 	
@@ -59,6 +61,7 @@ public class GameEngine extends Canvas implements Runnable {
 	public void render(Graphics graphics){
 		graphics.clearRect(0, 0, GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 		snake.drawSnake(graphics);
+		apple.drawApple(graphics)
 		
 		this.drawScore(g);
 	}
