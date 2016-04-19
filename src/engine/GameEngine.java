@@ -15,6 +15,8 @@ public class GameEngine extends Canvas implements Runnable {
 	
 	private Thread runThread;
 	private Graphics graphics;
+	
+	public static int score;
 	private boolean isRunning;
 	
 	@Override
@@ -31,6 +33,9 @@ public class GameEngine extends Canvas implements Runnable {
 
 	public GameEngine() {
 		snake = new Snake();
+		
+		score = 0;
+	
 	}
 
 	@Override
@@ -54,6 +59,14 @@ public class GameEngine extends Canvas implements Runnable {
 	public void render(Graphics graphics){
 		graphics.clearRect(0, 0, GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 		snake.drawSnake(graphics);
+		
+		this.drawScore(g);
+	}
+	public void drawScore(Graphics g){
+		g.setColor(Color.black);
+		g.fillRect(0, 600, 600, 25);
+		g.setColor(Color.white);
+		g.drawString("Score: " + score, 10, 615);
 	}
 }
 
