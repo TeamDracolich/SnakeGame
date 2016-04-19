@@ -46,8 +46,14 @@ public class Snake {
         Box nextPosition = new Box(head.x + velX, head.y + velY);
         
         boolean outside = 
-            nextPosition.x >= GameEngine.COLS || nextPosition.x < 0 ||
-            nextPosition.y >= GameEngine.ROWS || nextPosition.y < 0;
+        nextPosition.x >= GameEngine.COLS || nextPosition.x < 0 ||
+        nextPosition.y >= GameEngine.ROWS || nextPosition.y < 0;
+        
+        if(nextPosition.equals(GameEngine.apple.getAppleBox())){
+            body.add(GameEngine.apple.getAppleBox());
+            Game.apple = new Apple();
+        }
+        
             
         for (int i = 0; i < body.size() - 1; i++) {
             body.set(i, body.get(i+1));
