@@ -11,7 +11,8 @@ import java.util.List;
  */
 public class Snake {
     public static LinkedList<Box> body;
-    public Box head;
+    
+    private int velX, velY;
 
     public Snake() {
         body = new LinkedList<>();
@@ -21,6 +22,10 @@ public class Snake {
             new Box(3, 2),
             new Box(4, 2)
         );
+        head = body.peekLast();
+        velX = 1;
+        velY = 0;
+        
     }
     public void drawSnake (Graphics graphics){
         for (Box box : body) {
@@ -37,11 +42,27 @@ public class Snake {
     public void tick(){
         head = body.peekLast();
 
-        Box nextPosition = new Box(head.x + 1, head.y + 0);
+        Box nextPosition = new Box(head.x + velX, head.y + velY);
 
         for (int i = 0; i < body.size() - 1; i++) {
             body.set(i, body.get(i+1));
         }
         body.set(body.size() - 1, nextPosition);
+    }
+    
+      public int getVelX () {
+        return velX;
+    }
+
+    public void setVelX (int velX) {
+        this.velX = velX;
+    }
+
+    public int getVelY() {
+        return velY;
+    }
+
+    public void setVelY(int velY){
+        this.velY = velY;
     }
 }
