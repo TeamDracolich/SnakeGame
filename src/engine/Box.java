@@ -6,7 +6,7 @@ package engine;
 public class Box {
     public int x;
     public int y;
-    public static final int BOX_SIZE = 25;
+    public static final int BOX_SIZE = 20;
 
     public Box (int x, int y){
         this.x = x;
