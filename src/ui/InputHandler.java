@@ -18,7 +18,10 @@ public class InputHandler implements GameInputHandler{
 	public void keyPressed(KeyEvent e) {
         
     	int keyCode = e.getKeyCode();
-		if (keyCode == KeyEvent.VK_UP && this.gameEngine.getSnake().getDirectionY() != 1) {
+		if (keyCode == KeyEvent.VK_ENTER && !this.gameEngine.isRunning()) {
+			
+			this.gameEngine.setIsRunning(true);
+		} else if (keyCode == KeyEvent.VK_UP && this.gameEngine.getSnake().getDirectionY() != 1) {
 			
 			this.gameEngine.getSnake().setDirectionX(0);
 			this.gameEngine.getSnake().setDirectionY(-1);
@@ -30,16 +33,17 @@ public class InputHandler implements GameInputHandler{
 			
 			this.gameEngine.getSnake().setDirectionX(1);
 			this.gameEngine.getSnake().setDirectionY(0);
-		}else if (keyCode == KeyEvent.VK_LEFT && this.gameEngine.getSnake().getDirectionX() != 1) {
+		} else if (keyCode == KeyEvent.VK_LEFT && this.gameEngine.getSnake().getDirectionX() != 1) {
 			
 			this.gameEngine.getSnake().setDirectionX(-1);
 			this.gameEngine.getSnake().setDirectionY(0);
-		}
-		
-		if (keyCode == KeyEvent.VK_ESCAPE) {
+		} else if (keyCode == KeyEvent.VK_ESCAPE) {
 			
 			System.exit(0);
-		}
+		} else if (keyCode == KeyEvent.VK_P) {
+			
+			this.gameEngine.setPaused(!this.gameEngine.isPaused());
+		} 
     }
 
 

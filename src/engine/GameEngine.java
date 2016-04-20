@@ -30,6 +30,7 @@ public class GameEngine extends Canvas implements Runnable, SnakeEngine {
 	private int gameSpeed;
 	private int score;
 	private boolean isRunning;
+	private boolean isPaused;
 	private GameInputHandler inputHandler;
 	
 	public GameEngine(GameInputHandler inputHandler) {
@@ -40,6 +41,8 @@ public class GameEngine extends Canvas implements Runnable, SnakeEngine {
 		this.inputHandler = inputHandler;
 		this.addKeyListener(inputHandler);
 		this.inputHandler.setGameEngine(this);
+		this.setPaused(false);
+		this.isRunning = false;
 	}
 	
 	public Snake getSnake() {
@@ -47,6 +50,26 @@ public class GameEngine extends Canvas implements Runnable, SnakeEngine {
 		return this.snake;
 	}
 	
+	public boolean isPaused() {
+		
+		return this.isPaused;
+	}
+
+	public void setPaused(boolean isPaused) {
+		
+		this.isPaused = isPaused;
+	}
+	
+	public boolean isRunning() {
+		
+		return this.isRunning;
+	}
+	
+	public void setIsRunning(boolean isRunning) {
+		
+		this.isRunning = isRunning;
+	}
+
 	@Override
 	public void paint(Graphics graphics) {
 		
@@ -55,26 +78,34 @@ public class GameEngine extends Canvas implements Runnable, SnakeEngine {
 			
 			this.runThread = new Thread(this);
 			this.runThread.start();
-			this.isRunning = true;
 		}
 	}
 
 	@Override
 	public void run() {
 		
+		if (!this.isRunning) {
+			
+			this.showStartMenu();
+		}
+		
 		while (this.isRunning) {
 			
-			this.snake.updateSnake();
-			
-			if (this.snake.checkIsDead()) {
+			if (!this.isPaused()) {
 				
-				this.isRunning = false;
-			} else {
+				this.snake.updateSnake();
 				
-				detectCollisions();
+				if (this.snake.checkIsDead()) {
+					
+					this.isRunning = false;
+				} else {
+					
+					detectCollisions();
+				}
+				
+				this.render();
 			}
 			
-			this.render();
 			try {
 				
 				Thread.sleep(this.gameSpeed);
@@ -82,9 +113,23 @@ public class GameEngine extends Canvas implements Runnable, SnakeEngine {
 
 				e.printStackTrace();
 			}
+				
 		}
 		
 		this.drawEndScreen();
+	}
+
+	private void showStartMenu() {
+		
+		while (!this.isRunning) {
+			
+			this.graphics.setColor(Color.BLUE);
+			this.graphics.drawString("Press Enter to start game.", GAME_SCREEN_WIDTH / 2, GAME_SCREEN_HEIGHT / 2);
+			this.graphics.drawString(
+					"While playing press P to pause/unpause game.", GAME_SCREEN_WIDTH / 2, GAME_SCREEN_HEIGHT / 2 + DEFAULT_BOX_SIZE);
+			this.graphics.drawString(
+					"Press ESC at any time to exit.", GAME_SCREEN_WIDTH / 2, GAME_SCREEN_HEIGHT / 2 + 2 * DEFAULT_BOX_SIZE);
+		}
 	}
 
 	private void detectCollisions() {
@@ -136,8 +181,22 @@ public class GameEngine extends Canvas implements Runnable, SnakeEngine {
 	
 	private void drawEndScreen() {
 		
-		this.graphics.setColor(Color.BLACK);
-		this.graphics.drawString("Game Over! Final Score = " + this.score, GAME_SCREEN_WIDTH / 2, GAME_SCREEN_HEIGHT / 2);
+		while (!this.isRunning) {
+			
+			this.graphics.setColor(Color.BLACK);
+			this.graphics.drawString("Game Over! Final Score = " + this.score, GAME_SCREEN_WIDTH / 2, GAME_SCREEN_HEIGHT / 2);
+			this.graphics.drawString(
+					"Press Enter to play again.", GAME_SCREEN_WIDTH / 2, GAME_SCREEN_HEIGHT / 2 + DEFAULT_BOX_SIZE);
+			this.graphics.drawString(
+					"Press ESC to exit.", GAME_SCREEN_WIDTH / 2, GAME_SCREEN_HEIGHT / 2 + 2 * DEFAULT_BOX_SIZE);
+			
+		}
+		
+		this.snake = new Snake(DEFAULT_BOX_SIZE);
+		this.apple = new Apple(this.snake, DEFAULT_BOX_SIZE);
+		this.gameSpeed = INITIAL_GAME_SPEED;
+		this.score = 0;
+		this.run();
 	}
 }
 
