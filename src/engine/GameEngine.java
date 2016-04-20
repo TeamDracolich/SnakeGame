@@ -3,6 +3,9 @@ package engine;
 import java.awt.Canvas;
 import java.awt.Graphics;
 
+import models.Apple;
+import models.Snake;
+
 
 @SuppressWarnings("serial")
 public class GameEngine extends Canvas implements Runnable {
@@ -67,6 +70,7 @@ public class GameEngine extends Canvas implements Runnable {
 		
 		this.drawScore(graphics);
 	}
+	
 	public void drawScore(Graphics g){
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 600, 600, 25);

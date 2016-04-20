@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import ui.InputHandler;
+
 @SuppressWarnings("serial")
 public class GameApp extends Applet {
 	
