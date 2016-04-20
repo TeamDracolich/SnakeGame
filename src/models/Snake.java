@@ -2,84 +2,117 @@ package models;
 
 import java.awt.*;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 
-import engine.GameEngine;
+import interfaces.ISnake;
 
 /**
  * Created by user on 18.04.2016.
  */
-public class Snake {
-    public static LinkedList<Box> body;
+public class Snake implements ISnake {
     
-    private int velX, velY;
-    public Box head;
+	private final int SNAKE_START_X_POSITION = 1;
+	private final int SNAKE_START_Y_POSITION = 2;
+	private final int SNAKE_INITIAL_BOXES_COUNT = 4;
+	
+	private LinkedList<Box> snakeBody;
+    private int directionX;
+    private int directionY;
+    private Box snakeHead;
+    private int boxSize;
+    private boolean isDead;
 
-    public Snake() {
-        body = new LinkedList<>();
-        Collections.addAll(body,
-            new Box(1, 2),
-            new Box(2, 2),
-            new Box(3, 2),
-            new Box(4, 2)
-        );
-        head = body.peekLast();
-        velX = 1;
-        velY = 0;
+    public Snake(int boxSize) {
         
+    	this.intializeSnake();
+        this.snakeHead = this.snakeBody.peekLast();
+        this.directionX = 1;
+        this.directionY = 0;
+        this.boxSize = boxSize;
+        this.isDead = false;
     }
-    public void drawSnake (Graphics graphics){
-        for (Box box : body) {
-            graphics.setColor(Color.blue);
-            graphics.fillRect(box.x * box.BOX_SIZE, box.y * box.BOX_SIZE,
-                    box.BOX_SIZE, box.BOX_SIZE);
+
+    public Collection<Box> getSnakeBody() {
+		
+		return this.snakeBody;
+	}
+	
+	public Box getSnakeHead() {
+		
+		return this.snakeHead;
+	}
+	
+	public boolean checkIsDead() {
+		
+		return this.isDead;
+	}
+    
+    public int getDirectionX() {
+		
+    	return this.directionX;
+	}
+
+	public void setDirectionX(int directionX) {
+		
+		this.directionX = directionX;
+	}
+
+	public int getDirectionY() {
+		
+		return this.directionY;
+	}
+
+	public void setDirectionY(int directionY) {
+		
+		this.directionY = directionY;
+	}
+
+	public void drawSnake(Graphics graphics) {
+        
+    	for (Box box : this.snakeBody) {
+            
+    		graphics.setColor(Color.blue);
+            graphics.fillRect(box.getX() * this.boxSize, box.getY() * this.boxSize,
+            		this.boxSize, this.boxSize);
 
             graphics.setColor(Color.red);
-            graphics.drawRect(box.x * box.BOX_SIZE, box.y * box.BOX_SIZE,
-                    box.BOX_SIZE, box.BOX_SIZE);
+            graphics.drawRect(box.getX() * this.boxSize, box.getY() * this.boxSize,
+            		this.boxSize, this.boxSize);
         }
     }
 
-    public void tick(){
-        head = body.peekLast();
-
-        Box nextPosition = new Box(head.x + velX, head.y + velY);
+    public void updateSnake(){
         
-        boolean hitBorder = 
-        nextPosition.x >= GameEngine.COLS || nextPosition.x < 0 ||
-        nextPosition.y >= GameEngine.ROWS || nextPosition.y < 0;
-        
-        if(nextPosition.equals(GameEngine.apple.getAppleBox())){
-            GameEngine.score += 10;
-            body.add(GameEngine.apple.getAppleBox());
-            GameEngine.apple = new Apple();
-            GameEngine.changeSpeed();
-        }else if(body.contains(nextPosition) || hitBorder){
-            GameEngine.isRunning = false;
-        }
-        
-            
-        for (int i = 0; i < body.size() - 1; i++) {
-            body.set(i, body.get(i+1));
-        }
-        body.set(body.size() - 1, nextPosition);
+    	Box nextPosition = new Box(this.snakeHead.getX() + this.getDirectionX(), 
+				this.snakeHead.getY() + this.getDirectionY());
+		if (this.snakeBody.contains(nextPosition)) {
+			
+			this.isDead = true;
+			return;
+		}
+		
+		for (int i = 0; i < this.snakeBody.size() - 1; i++) {
+			
+			this.snakeBody.set(i, this.snakeBody.get(i + 1));
+		}
+		
+		this.snakeBody.set(this.snakeBody.size() - 1, nextPosition);
+		this.snakeHead = nextPosition;
     }
     
-      public int getVelX () {
-        return velX;
-    }
-
-    public void setVelX (int velX) {
-        this.velX = velX;
-    }
-
-    public int getVelY() {
-        return velY;
-    }
-
-    public void setVelY(int velY){
-        this.velY = velY;
+    public void eatApple(Apple apple) {
+		
+		this.snakeBody.add(apple.getAppleBox());
+		this.snakeHead = this.snakeBody.peekLast();
+	}
+    
+    private void intializeSnake() {
+    	
+    	this.snakeBody = new LinkedList<Box>();
+    	for (int i = 0; i < SNAKE_INITIAL_BOXES_COUNT; i++) {
+			
+    		Box box = new Box(SNAKE_START_X_POSITION + i, SNAKE_START_Y_POSITION);
+    		this.snakeBody.add(box);
+		}
     }
 }

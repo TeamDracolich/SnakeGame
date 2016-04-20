@@ -1,37 +1,50 @@
 package models;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.Random;
 
 import engine.GameEngine;
+import interfaces.IApple;
 
 
-public class Apple {
-    private Box appleBox;
-    private Random randGenerator;
+public class Apple implements IApple {
+    
+	private static final Random randGenerator = new Random();
+	
+	private Box appleBox;
+	private int boxSize;
 
-    public Apple() {
-        appleBox = createApple(GameEngine.snake);
+    public Apple(Snake snake, int boxSize) {
+        
+    	this.boxSize = boxSize;
+    	this.appleBox = createApple(snake);
     }
-    private Box createApple(Snake s){
-        randGenerator = new Random();
+    
+    public Box getAppleBox() {
+		
+		return this.appleBox;
+	}
+	
+	public void drawApple(Graphics graphics){
+		
+		graphics.setColor(Color.YELLOW);
+		graphics.fillOval(this.appleBox.getX() * this.boxSize, this.appleBox.getY() * this.boxSize, 
+				this.boxSize, this.boxSize);
+	}
+    
+    private Box createApple(Snake snake){
+        
+    	int x = randGenerator.nextInt(GameEngine.COLS_MAX_LENGTH);
+        int y = randGenerator.nextInt(GameEngine.ROWS_MAX_LENGTH);
 
-        int x = randGenerator.nextInt(GameEngine.COLS);
-        int y = randGenerator.nextInt(GameEngine.ROWS);
+        Box applePoint = new Box(x, y);
 
-        Box applePoint = new Box(x,y);
+        if (snake.getSnakeBody().contains(applePoint)) {
+			
+			return this.createApple(snake);
+		}
 
-        if (s.body.contains(applePoint)){
-            return createApple(s);
-        }
         return applePoint;
     }
-
-    public void drawApple(Graphics g){
-        g.setColor(Color.YELLOW);
-        g.fillOval(appleBox.x*appleBox.BOX_SIZE, appleBox.y*appleBox.BOX_SIZE, appleBox.BOX_SIZE,appleBox.BOX_SIZE);
-    }
 }
-    public Box getAppleBox(){
-        return appleBox;
-    }

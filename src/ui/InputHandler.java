@@ -3,55 +3,57 @@ package ui;
  * Created by Jivko on 19-Apr-16.
  */
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class InputHandler implements KeyListener{
+import interfaces.GameInputHandler;
+import interfaces.SnakeEngine;
 
-    public InputHandler(Game game){
-        game.addKeyListener(this);
+public class InputHandler implements GameInputHandler{
+
+    private SnakeEngine gameEngine;
+	
+	public InputHandler(){
+
     }
 
-
-    public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-
-        if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP) {
-            if(Game.snake.getVelY() != 20){
-                Game.snake.setVelX(0);
-                Game.snake.setVelY(-20);
-            }
-        }
-        if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN) {
-            if(Game.snake.getVelY() != -20){
-                Game.snake.setVelX(0);
-                Game.snake.setVelY(20);
-            }
-        }
-        if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT) {
-            if(Game.snake.getVelX() != -20){
-                Game.snake.setVelX(20);
-                Game.snake.setVelY(0);
-            }
-        }
-        if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT) {
-            if(Game.snake.getVelX() != 20){
-                Game.snake.setVelX(-20);
-                Game.snake.setVelY(0);
-            }
-        }
-        //Other controls
-        if (keyCode == KeyEvent.VK_ESCAPE) {
-            System.exit(0);
-        }
+	public void keyPressed(KeyEvent e) {
+        
+    	int keyCode = e.getKeyCode();
+		if (keyCode == KeyEvent.VK_UP && this.gameEngine.getSnake().getDirectionY() != 1) {
+			
+			this.gameEngine.getSnake().setDirectionX(0);
+			this.gameEngine.getSnake().setDirectionY(-1);
+		} else if (keyCode == KeyEvent.VK_DOWN && this.gameEngine.getSnake().getDirectionY() != -1) {
+			
+			this.gameEngine.getSnake().setDirectionX(0);
+			this.gameEngine.getSnake().setDirectionY(1);
+		} else if (keyCode == KeyEvent.VK_RIGHT && this.gameEngine.getSnake().getDirectionX() != -1) {
+			
+			this.gameEngine.getSnake().setDirectionX(1);
+			this.gameEngine.getSnake().setDirectionY(0);
+		}else if (keyCode == KeyEvent.VK_LEFT && this.gameEngine.getSnake().getDirectionX() != 1) {
+			
+			this.gameEngine.getSnake().setDirectionX(-1);
+			this.gameEngine.getSnake().setDirectionY(0);
+		}
+		
+		if (keyCode == KeyEvent.VK_ESCAPE) {
+			
+			System.exit(0);
+		}
     }
 
 
     public void keyReleased(KeyEvent e) {
+    	
     }
 
 
     public void keyTyped(KeyEvent e) {
 
     }
-
+    
+    public void setGameEngine(SnakeEngine gameEngine) {
+    	
+    	this.gameEngine = gameEngine;
+    }
 }
